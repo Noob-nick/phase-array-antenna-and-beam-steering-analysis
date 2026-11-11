@@ -41,12 +41,12 @@ def calculate_pattern(steer_deg, spacing=D, n_elements=N):
     # Contribution of every element at every angle for 3601 angles for 8 elements
     phase = (
         K * spacing
-        * np.sin(THETA[:, None])
+        * np.sin(THETA[:, None])#3601*8
         * n[None, :]
     )
 
     af = np.sum(   # calculation array factor 
-        np.exp(1j * phase) * weights[None, :],
+        np.exp(1j * phase) * weights[None, :],#3601*8 1*8 = 3601*8
         axis=1
     )
 
@@ -64,9 +64,10 @@ def calculate_pattern(steer_deg, spacing=D, n_elements=N):
 # ====================================
 # 3. Plot beam steering patterns
 # ====================================
-plt.figure(figsize=(10, 6)) #this creates a figure
 
 for steer_deg in STEERING_ANGLES:
+    plt.figure(figsize=(10, 6)) #this creates a figure
+
     pattern = calculate_pattern(steer_deg) # applied for loop calculates pattern for each angle
 
     plt.plot(
@@ -74,21 +75,24 @@ for steer_deg in STEERING_ANGLES:
         pattern,# y axis is normalised array factor
         label=f"Steering angle = {steer_deg} deg"
     )
+    plt.xlabel("Observation angle (degrees)")
+    plt.ylabel("Normalized array factor (dB)")
+    plt.title(f"Beam Steering at {steer_deg}°")
 
-plt.xlabel("Observation angle (degrees)")
-plt.ylabel("Normalized array factor (dB)")
-plt.title("Phased-Array Beam Steering")
-plt.xlim(-90, 90)
-plt.ylim(-60, 2)
-plt.grid(True)
-plt.legend()
-plt.tight_layout()
+    plt.xlabel("Observation angle (degrees)")
+    plt.ylabel("Normalized array factor (dB)")
+    plt.title("Phased-Array Beam Steering")
+    plt.xlim(-90, 90)
+    plt.ylim(-60, 2)
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
 
-plt.savefig(
+    plt.savefig(
     RESULTS / "steering_patterns.png",
     dpi=200
-)
-plt.show()
+     )
+    plt.show()
 
 
 # ====================================
