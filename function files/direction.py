@@ -1,7 +1,9 @@
 import numpy as np
 
+from parameters import STEERING_ANGLES, THETA_DEG
+from radiation_pattern import calculate_pattern
 
-def direction(calculate_pattern,STEERING_ANGLES,THETA_DEG):
+def direction():
     print("\nBeam-direction validation")   # this is used to check if antenna is steering in desired direction or not
 
     for steer_deg in STEERING_ANGLES:
